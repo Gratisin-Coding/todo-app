@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:vr_todo/services/db_service.dart';
 import 'package:vr_todo/widgets/custom_button.dart';
 
 class AddPage extends StatelessWidget {
@@ -6,6 +8,14 @@ class AddPage extends StatelessWidget {
 
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+
+  void deleteTextfieldData(BuildContext context) {
+    _titleController.clear();
+    _descriptionController.clear();
+
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text("Item successfully saved")));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +40,22 @@ class AddPage extends StatelessWidget {
               height: 32.0,
             ),
             CustomButton(
-              onTap: () {
-                // TODO: Implement save data here
+              onTap: () async {
+                // Save data here
+
+                String title = _titleController.text;
+                String description = _descriptionController.text;
+
+                if (title.isEmpty || description.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text("Title and description can't be empty")));
+                } else {
+                  Database db = await DbService.createDb();
+
+                  DbService.createRecord(db, title, description);
+
+                  deleteTextfieldData(context);
+                }
               },
             ),
           ],
