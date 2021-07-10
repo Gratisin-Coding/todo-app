@@ -1,7 +1,7 @@
-# AR TODO App
+# To-Do App
 
-AR TODO App is an todo application but in AR.
-Built with flutter and dart.
+To-Do App is a to-do application created to store your to-do list easily within your mobile phone.
+Built with Flutter and Dart.
 
 ## Getting Started
 
